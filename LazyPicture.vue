@@ -9,6 +9,7 @@
         :srcset="source.fields.placeholder"
       >  
       <img 
+        @load="onPlaceholderLoad"
         ref="placeholder"
         v-if="baseImage"
         :src="baseImage.fields.placeholder" 
@@ -31,13 +32,13 @@
         :alt="title"
       >
     </picture>
-    <canvas ref="canvas"  :class="{hide: loaded}"></canvas>
+    <canvas ref="canvas" :class="{hide: loaded}"></canvas>
   </div>
 </template>
 <script>
 const StackBlur = require("stackblur-canvas");
 if (process.browser) {
-  require('intersection-observer');
+  require("intersection-observer");
 }
 export default {
   props: {
@@ -50,6 +51,7 @@ export default {
       loaded: false,
       intersected: false,
       blurRadius: 30,
+      intersectionOptions: {},
     };
   },
   computed: {
@@ -59,21 +61,24 @@ export default {
   },
   methods: {
     onImageLoad() {
-      this.loaded = true;
-      console.log("loaded", this.$refs.image);
+      if (this.$refs.image) {
+        this.loaded = true;        
+      }
+    },
+    onPlaceholderLoad() {
+      if (this.$refs.placeholder) {
+        StackBlur.image(this.$refs.placeholder, this.$refs.canvas, this.blurRadius, false);
+      }
     },
   },
   mounted() {
-    StackBlur.image(this.$refs.placeholder, this.$refs.canvas, this.blurRadius, false);
     this.observer = new IntersectionObserver(entries => {
       const image = entries[0];
       if (image.isIntersecting) {
         this.intersected = true;
-        this.observer.disconnect();
-        console.log("intersect", image.target);
+        this.observer.disconnect();        
       }
     }, this.intersectionOptions);
-
     this.observer.observe(this.$el);
   },
   destroyed() {
