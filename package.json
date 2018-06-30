@@ -1,0 +1,23 @@
+{
+  "name": "vuelazypicture",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreynazarov3/VueLazyPicture.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreynazarov3/VueLazyPicture/issues"
+  },
+  "homepage": "https://github.com/andreynazarov3/VueLazyPicture#readme",
+  "dependencies": {
+    "intersection-observer": "^0.5.0",
+    "stackblur-canvas": "^1.4.1"
+  }
+}
