@@ -1,5 +1,5 @@
 <template>
-  <div class="picture-container">
+  <div ref="picture-container" class="picture-container">
     <picture class="placeholder">
       <source 
         :key="source.sys.id"
@@ -8,7 +8,7 @@
         :media="source.fields.media" 
         :srcset="source.fields.placeholder"
       >  
-      <img 
+      <img         
         @load="onPlaceholderLoad"
         ref="placeholder"
         v-if="baseImage"
@@ -16,7 +16,7 @@
         :alt="title"
       >
     </picture>
-    <picture class="fullsize" v-if="intersected" :class="{show: loaded}">
+    <picture ref="picture" class="fullsize" v-if="intersected || !lazy">
       <source 
         :key="source.sys.id"
         v-if="source.fields.media" 
@@ -32,7 +32,7 @@
         :alt="title"
       >
     </picture>
-    <canvas ref="canvas" :class="{hide: loaded}"></canvas>
+    <canvas ref="canvas"></canvas>
   </div>
 </template>
 <script>
@@ -44,14 +44,24 @@ export default {
   props: {
     title: String,
     sources: Array,
+    lazy: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
+      picture: null,
       observer: null,
       loaded: false,
       intersected: false,
+      faded: false,
       blurRadius: 30,
-      intersectionOptions: {},
+      intersectionOptions: {
+        root: null,
+        rootMargin: "0px 0px 0px 0px",
+        threshold: 0,
+      },
     };
   },
   computed: {
@@ -59,30 +69,53 @@ export default {
       return this.sources.find(source => source.fields.src);
     },
   },
-  methods: {
-    onImageLoad() {
-      if (this.$refs.image) {
-        this.loaded = true;        
+  watch: {
+    intersected: function(val) {
+      if (val === true) {
+        this.onIntersect();
       }
+    },
+  },
+  methods: {
+    fadeOutCanvas () {
+       new TimelineMax().delay(0.5).to(this.$refs.canvas, 1, {
+        autoAlpha: 0,
+      });
+    },
+    onIntersect() {      
+     if (this.loaded && !this.faded) {
+       this.fadeOutCanvas();
+       this.faded = true;
+     }
+    },
+    onImageLoad() {
+      if (this.$refs.image && this.intersected && !this.faded) {
+        this.fadeOutCanvas();
+      }
+      this.loaded = true;
     },
     onPlaceholderLoad() {
-      if (this.$refs.placeholder) {
+      this.observer = new IntersectionObserver(entries => {
+        const image = entries[0];
+        if (image.isIntersecting) {
+          this.intersected = true;
+          this.observer.disconnect();
+        }
+      }, this.intersectionOptions);
+      this.observer.observe(this.$el);
+
+      if (this.$refs.placeholder && !this.loaded) {
         StackBlur.image(this.$refs.placeholder, this.$refs.canvas, this.blurRadius, false);
+        new TweenMax(this.$refs.canvas, 0, {
+          autoAlpha: 1,
+        });
       }
     },
   },
-  mounted() {
-    this.observer = new IntersectionObserver(entries => {
-      const image = entries[0];
-      if (image.isIntersecting) {
-        this.intersected = true;
-        this.observer.disconnect();        
-      }
-    }, this.intersectionOptions);
-    this.observer.observe(this.$el);
-  },
   destroyed() {
-    this.observer.disconnect();
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   },
 };
 </script>
@@ -97,26 +130,24 @@ picture.fullsize {
   left: 0;
   width: 100% !important;
   height: 100% !important;
-  transition: opacity 1000ms ease;
 }
 canvas {
-  &.hide {
-    opacity: 0;
-  }
+  opacity: 0;
 }
 picture {
   display: block;
+  width: 100%;
   &.placeholder {
     opacity: 0;
-  }
-  &.fullsize {
-    opacity: 0;
-    &.show {
-      opacity: 1;
-    }
   }
 }
 img {
   display: block;
+  width: 100%;
+}
+.banner img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 </style>
