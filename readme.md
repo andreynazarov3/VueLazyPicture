@@ -17,6 +17,7 @@ Created for using with contentful.com api initially, that why `fields` and `sys`
 
 * `title (String)` - alt attribute for image
 * `sources (Array)` - array of image source objects.
+* `lazy (Boolean)` - should image loading be lazy or not
 
 Image source object schema:
 
