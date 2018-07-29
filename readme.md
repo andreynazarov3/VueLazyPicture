@@ -11,6 +11,7 @@ Created for using with contentful.com api initially, that why `fields` and `sys`
 
 * stackblur-canvas: draws blurred image to canvas
 * intersection-observer: polyfill for iOS and others
+* gsap: opacity animation
 
 # Props
 
