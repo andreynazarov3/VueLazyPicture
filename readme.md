@@ -1,9 +1,7 @@
 # About
 
-*
-NB: This is raw component, i don't think it's good idea to use it as is. But I hope it will be inspiration for your own implementation.
-Suggested usage is for you to copy component code to your app, install dependences into your main app. Tweak component for your needs.
-*
+*NB: This is raw component, i don't think it's good idea to use it as is. But I hope it will be inspiration for your own implementation.
+Suggested usage is for you to copy component code to your app, install dependences into your main app. Tweak component for your needs.*
 
 Vue component for Medium-style lazy loading pictures.
 
