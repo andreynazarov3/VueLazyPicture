@@ -1,5 +1,7 @@
 # About
 
+*NB: This is raw component, i don't think it's good idea to use it as is. But I hope it will be inspiration for your own implementation.*
+
 Vue component for Medium-style lazy loading pictures.
 
 Uses `<picture>` tag and `<canvas>` for blurred image.
