@@ -1,6 +1,6 @@
 {
 	"name": "vue-lazy-picture",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "Responsive lazy loading vue component with meduim-style blur effect",
 	"main": "dist/lazy-picture.umd.js",
 	"module": "dist/lazy-picture.esm.js",
