@@ -1,6 +1,6 @@
 {
 	"name": "vue-lazy-picture",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "Responsive lazy loading vue component with meduim-style blur effect",
 	"main": "dist/lazy-picture.umd.js",
 	"module": "dist/lazy-picture.esm.js",
@@ -35,7 +35,8 @@
 		"type": "git",
 		"url": "git+https://github.com/andreynazarov3/VueLazyPicture.git"
 	},
-	"author": "",
+	"author": "Andrey Nazarov",
+	"keywords": ["vue", "component", "picture", "lazy", "blur", "image", "stackblur", "responsive", "progressive"],
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/andreynazarov3/VueLazyPicture/issues"
