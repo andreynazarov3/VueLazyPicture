@@ -1,23 +1,47 @@
 {
-  "name": "vuelazypicture",
-  "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/andreynazarov3/VueLazyPicture.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/andreynazarov3/VueLazyPicture/issues"
-  },
-  "homepage": "https://github.com/andreynazarov3/VueLazyPicture#readme",
-  "dependencies": {
-    "intersection-observer": "^0.5.1",
-    "stackblur-canvas": "^1.4.1"
-  }
+	"name": "vue-lazy-picture",
+	"version": "2.0.0",
+	"description": "Responsive lazy loading vue component with meduim-style blur effect",
+	"main": "dist/lazy-picture.umd.js",
+	"module": "dist/lazy-picture.esm.js",
+	"unpkg": "dist/lazy-picture.min.js",
+	"browser": {
+		"./sfc": "src/lazy-picture.vue"
+	},
+	"files": [
+		"dist/*",
+		"src/*"
+	],
+	"scripts": {
+		"build": "npm run build:unpkg & npm run build:es & npm run build:umd",
+		"build:umd": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format umd --file dist/lazy-picture.umd.js",
+		"build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es --file dist/lazy-picture.esm.js",
+		"build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife --file dist/lazy-picture.min.js"
+	},
+	"devDependencies": {
+		"cross-env": "^5.2.0",
+		"minimist": "^1.2.0",
+		"rollup": "^1.1.2",
+		"rollup-plugin-buble": "^0.19.6",
+		"rollup-plugin-commonjs": "^9.2.0",
+		"rollup-plugin-replace": "^2.1.0",
+		"rollup-plugin-uglify-es": "0.0.1",
+		"rollup-plugin-vue": "^4.6.2",
+		"vue": "^2.5.22",
+		"vue-template-compiler": "^2.5.22",
+		"stackblur-canvas": "^1.4.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/andreynazarov3/VueLazyPicture.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/andreynazarov3/VueLazyPicture/issues"
+	},
+	"homepage": "https://github.com/andreynazarov3/VueLazyPicture#readme",
+	"dependencies": {
+		"intersection-observer": "^0.5.1"
+	}
 }
