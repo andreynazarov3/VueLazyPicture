@@ -8,8 +8,6 @@ Vue component for Medium-style lazy loading pictures.
 Uses `<picture>` tag and `<canvas>` for blurred image.
 Image detection by instersection observer API.
 
-Created for using with contentful.com api initially, that why `fields` and `sys` are used as object property names.
-
 Demo: https://andreynazarov3.github.io/lazy-picture/dist/index.html
 
 # Dependencies
