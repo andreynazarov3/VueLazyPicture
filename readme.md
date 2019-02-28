@@ -20,10 +20,10 @@ Example with all possible props:
   :picture-sources="sources.picture"
   :img-sources="sources.img
   :title="Example Picture"
-  :easing="'ease'"
-  :transition-duration="2000"
-  :blur-radius="30"
-  lazy
+  :easing="'ease-out'"           // default 'ease'
+  :transition-duration="1000"    // default '2000'
+  :blur-radius="20"              // default '30'
+  lazy                           // default 'false'
 />
 ```
 
