@@ -57,8 +57,3 @@ Example:
   }
 ]
 ```
-
-# Donate
-
-If you liked my work, please donate me for beer by link:
-https://paypal.me/andreynazarov3
