@@ -58,3 +58,43 @@ export default {
 };
 </script>
 ```
+## Props
+
+```
+    maxWidth: {
+      type: String,
+      default: "100%"
+    },
+    containerClass: {
+      type: String,
+      default: "lazy-picture"
+    },
+    title: {
+      type: String,
+      default: "Image"
+    },
+    placeholder: {
+      type: String,
+      required: true
+    },
+    src: {
+      type: String,
+      required: true
+    },
+    lazy: {
+      type: Boolean,
+      default: false
+    },
+    blurRadius: {
+      type: Number,
+      default: 5
+    },
+    transitionDuration: {
+      type: Number,
+      default: 2000
+    },
+    easing: {
+      type: String,
+      default: "ease"
+    }
+```
