@@ -21,7 +21,7 @@
 	</div>
 </template>
 <script>
-const StackBlur = require("./stackblur-canvas.js");
+import * as StackBlur from "./stackblur-canvas.js";
 if (process.browser) {
 	require("intersection-observer");
 }

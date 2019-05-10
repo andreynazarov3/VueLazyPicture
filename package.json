@@ -28,8 +28,7 @@
 		"rollup-plugin-uglify-es": "0.0.1",
 		"rollup-plugin-vue": "^4.6.2",
 		"vue": "^2.5.22",
-		"vue-template-compiler": "^2.5.22",
-		"stackblur-canvas": "^1.4.1"
+		"vue-template-compiler": "^2.5.22"
 	},
 	"repository": {
 		"type": "git",
@@ -51,8 +50,5 @@
 	"bugs": {
 		"url": "https://github.com/andreynazarov3/VueLazyPicture/issues"
 	},
-	"homepage": "https://github.com/andreynazarov3/VueLazyPicture#readme",
-	"dependencies": {
-		"intersection-observer": "^0.5.1"
-	}
+	"homepage": "https://github.com/andreynazarov3/VueLazyPicture#readme"
 }
