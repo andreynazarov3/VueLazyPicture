@@ -3,6 +3,10 @@
 Responsive Vue component for Medium-style lazy loading pictures.
 Uses `intersection-observer` and `stackblur-canvas` internally.
 
+## Demo
+
+https://codesandbox.io/s/4jp678mw09
+
 **Warning!**
 You need to install `intersection-observer polyfill` separately to support IE and mobile browsers.
 

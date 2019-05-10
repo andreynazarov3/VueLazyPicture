@@ -9,6 +9,7 @@
 			:src="placeholder"
 			@load="onPlaceholderLoad"
 			:style="placeholderStyle"
+      crossOrigin="anonymous"
 		/>
 		<canvas ref="canvas" :style="canvasStyle" />
 		<img
@@ -22,9 +23,6 @@
 </template>
 <script>
 import * as StackBlur from "./stackblur-canvas.js";
-if (process.browser) {
-	require("intersection-observer");
-}
 export default {
 	props: {
 		maxWidth: {
