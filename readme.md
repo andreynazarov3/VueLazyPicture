@@ -1,59 +1,56 @@
-# About
+# Vue Lazy Picture
 
 Responsive Vue component for Medium-style lazy loading pictures.
+Uses `intersection-observer` and `stackblur-canvas` internally.
 
-Uses `<picture>` tag and `<canvas>` for blurred image.
-Uses instersection observer API. (requires polyfill);
-Uses `stackblur-canvas` to render blurred image.
+**Warning!**
+You need to install `intersection-observer polyfill` separately to support IE and mobile browsers.
 
-Demo: https://andreynazarov3.github.io/lazy-picture/dist/index.html
-
-# Usage
-
-- Install component with npm: `npm i vue-lazy-picture -D`
-- For older browers and iOS install intersection observer polyfill globally in your app.
-
-Example with all possible props:
+Creates sandwich of images in container:
 
 ```
-<lazy-picture
-  :picture-sources="sources.picture"
-  :img-sources="sources.img
-  :title="Example Picture"
-  :easing="'ease-out'"           // default 'ease'
-  :transition-duration="1000"    // default '2000'
-  :blur-radius="20"              // default '30'
-  lazy                           // default 'false'
-/>
+<div class="lazy-picture">
+  <img>    // placeholder
+  <canvas> // blurred placeholder
+  <img>    // full-size image
+</div>
 ```
 
-If you don't care about responsivenes, you use only `img-sources` prop.
-It is an object with full resolution src and small image to use for blurred image.
-Example:
+## Usage
 
+Install by npm:
 ```
-{
-  src: "./images/New_york_times_square-terabass.jpg",
-  placeholder: "./images/rsz_new_york_times_square-terabass-small.jpg"
-}
+npm i vue-lazy-picture
 ```
 
-But this component is designed to use full power of `<picture>` tag. So I encourage you to use `picture-sources`. It is an array of data to use in `<source>` tag.
-So you see it that every source should have media query, srcset and placeholder (placeholder is needed as every source can have different aspect ratio);
-Example:
+Then in your vue app:
+
 ```
-[
-  {
-    media: "(max-width: 480px)",
-    srcset:
-      "./images/New_york_times_square-terabass_480@1x.jpg, ./images/New_york_times_square-terabass_480@2x.jpg 2x",
-    placeholder: "./images/New_york_times_square-terabass_480@0x.jpg"
+// App.vue
+
+<template>
+  <div id="app">
+    <lazy-picture
+      :src="image.src"
+      :placeholder="image.ph"
+      lazy
+     />
+  </div>
+</template>
+<script>
+import LazyPicture from 'vue-lazy-picture';
+
+export default {
+  name: "app",
+  components: {
+    LazyPicture
   },
-  {
-    media: "(min-width: 481px)",
-    srcset: "./images/New_york_times_square-terabass.jpg",
-    placeholder:
-      "./images/rsz_new_york_times_square-terabass-small.jpg"
-  }
-]
+  data() {
+    return {
+      image: {
+        ph: "./images/New_york_times_square-terabass_480@0x.jpg",
+        src: "./images/New_york_times_square-terabass_480@1x.jpg",
+      },
+};
+</script>
 ```

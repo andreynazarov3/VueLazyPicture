@@ -26,7 +26,9 @@ const config = {
         isProduction: true,
       },
     }),
-    buble(),
+    buble({
+      objectAssign: 'Object.assign'
+    }),
   ],
 };
 
