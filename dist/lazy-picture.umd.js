@@ -631,6 +631,10 @@
     //
     var script = {
     	props: {
+    		containerBgColor: {
+    			type: String,
+    			default: "rgb(222, 222, 222)"
+    		},
     		maxWidth: {
     			type: String,
     			default: "100%"
@@ -661,7 +665,7 @@
     		},
     		transitionDuration: {
     			type: Number,
-    			default: 2000
+    			default: 500
     		},
     		easing: {
     			type: String,
@@ -670,6 +674,7 @@
     	},
     	data: function data() {
     		return {
+    			blurReady: false,
     			loaded: false,
     			observer: null,
     			intersected: false,
@@ -678,7 +683,7 @@
     				rootMargin: "0px 0px 0px 0px",
     				threshold: 0
     			},
-    			canvasStyle: {
+    			canvasStyleDefaults: {
     				position: "absolute",
     				top: 0,
     				left: 0,
@@ -690,7 +695,7 @@
     				left: 0,
     				width: "100%"
     			},
-    			placeholderStyle: {
+    			placeholderStyleDefaults: {
     				display: "block",
     				width: "100%",
     				opacity: 0
@@ -698,6 +703,19 @@
     		};
     	},
     	computed: {
+    		getCanvasStyle: function getCanvasStyle() {
+    			return Object.assign({}, this.canvasStyleDefaults,
+    				{transitionDuration: ((this.transitionDuration) + "ms"),
+    				transitionTimingFunction: ("" + (this.easing)),
+    				opacity: this.blurReady ? 1 : 0});
+    		},
+    		getContainerStyle: function getContainerStyle() {
+    			return {
+    				position: "relative",
+    				maxWidth: this.maxWidth,
+    				backgroundColor: this.containerBgColor
+    			};
+    		},
     		getFullSizeImageStyle: function getFullSizeImageStyle() {
     			return Object.assign({}, this.fullsizeImageStyleDefaults,
     				{opacity: this.loaded ? 1 : 0,
@@ -722,12 +740,13 @@
     			}
     		},
     		createBlurredImage: function createBlurredImage() {
-    			return processImage(
+    			processImage(
     				this.$refs.placeholder,
     				this.$refs.canvas,
     				this.blurRadius,
     				false
     			);
+    			this.blurReady = true;
     		},
     		createIntersectionObserver: function createIntersectionObserver() {
     			var this$1 = this;
@@ -836,7 +855,7 @@
     var __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"container",class:[_vm.containerClass],style:({ position: 'relative', maxWidth: _vm.maxWidth })},[_c('img',{ref:"placeholder",style:(_vm.placeholderStyle),attrs:{"src":_vm.placeholder,"crossOrigin":"anonymous"},on:{"load":_vm.onPlaceholderLoad}}),_vm._v(" "),_c('canvas',{ref:"canvas",style:(_vm.canvasStyle)}),_vm._v(" "),_c('img',{ref:"picture",style:(_vm.getFullSizeImageStyle),attrs:{"alt":_vm.title,"src":_vm.getFullSizeSrc},on:{"load":function($event){_vm.loaded = true;}}})])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"container",class:[_vm.containerClass],style:(_vm.getContainerStyle)},[_c('img',{ref:"placeholder",style:(_vm.placeholderStyleDefaults),attrs:{"src":_vm.placeholder,"crossOrigin":"anonymous"},on:{"load":_vm.onPlaceholderLoad}}),_vm._v(" "),_c('canvas',{ref:"canvas",style:(_vm.getCanvasStyle)}),_vm._v(" "),_c('img',{ref:"picture",style:(_vm.getFullSizeImageStyle),attrs:{"alt":_vm.title,"src":_vm.getFullSizeSrc},on:{"load":function($event){_vm.loaded = true;}}})])};
     var __vue_staticRenderFns__ = [];
 
       /* style */

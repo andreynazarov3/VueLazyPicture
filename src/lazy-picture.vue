@@ -1,17 +1,13 @@
 <template>
-	<div
-		ref="container"
-		:class="[containerClass]"
-		:style="{ position: 'relative', maxWidth }"
-	>
+	<div ref="container" :class="[containerClass]" :style="getContainerStyle">
 		<img
 			ref="placeholder"
 			:src="placeholder"
 			@load="onPlaceholderLoad"
-			:style="placeholderStyle"
-      crossOrigin="anonymous"
+			:style="placeholderStyleDefaults"
+			crossOrigin="anonymous"
 		/>
-		<canvas ref="canvas" :style="canvasStyle" />
+		<canvas ref="canvas" :style="getCanvasStyle" />
 		<img
 			ref="picture"
 			:alt="title"
@@ -25,6 +21,10 @@
 import * as StackBlur from "./stackblur-canvas.js";
 export default {
 	props: {
+		containerBgColor: {
+			type: String,
+			default: "rgb(222, 222, 222)"
+		},
 		maxWidth: {
 			type: String,
 			default: "100%"
@@ -55,7 +55,7 @@ export default {
 		},
 		transitionDuration: {
 			type: Number,
-			default: 2000
+			default: 500
 		},
 		easing: {
 			type: String,
@@ -64,6 +64,7 @@ export default {
 	},
 	data() {
 		return {
+			blurReady: false,
 			loaded: false,
 			observer: null,
 			intersected: false,
@@ -72,7 +73,7 @@ export default {
 				rootMargin: "0px 0px 0px 0px",
 				threshold: 0
 			},
-			canvasStyle: {
+			canvasStyleDefaults: {
 				position: "absolute",
 				top: 0,
 				left: 0,
@@ -84,7 +85,7 @@ export default {
 				left: 0,
 				width: "100%"
 			},
-			placeholderStyle: {
+			placeholderStyleDefaults: {
 				display: "block",
 				width: "100%",
 				opacity: 0
@@ -92,6 +93,21 @@ export default {
 		};
 	},
 	computed: {
+		getCanvasStyle() {
+			return {
+				...this.canvasStyleDefaults,
+				transitionDuration: `${this.transitionDuration}ms`,
+				transitionTimingFunction: `${this.easing}`,
+				opacity: this.blurReady ? 1 : 0
+			};
+		},
+		getContainerStyle() {
+			return {
+				position: "relative",
+				maxWidth: this.maxWidth,
+				backgroundColor: this.containerBgColor
+			};
+		},
 		getFullSizeImageStyle() {
 			return {
 				...this.fullsizeImageStyleDefaults,
@@ -118,12 +134,13 @@ export default {
 			}
 		},
 		createBlurredImage() {
-			return StackBlur.image(
+			StackBlur.image(
 				this.$refs.placeholder,
 				this.$refs.canvas,
 				this.blurRadius,
 				false
 			);
+			this.blurReady = true;
 		},
 		createIntersectionObserver() {
 			this.observer = new IntersectionObserver(entries => {
