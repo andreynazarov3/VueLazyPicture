@@ -61,40 +61,48 @@ export default {
 ## Props
 
 ```
-    maxWidth: {
-      type: String,
-      default: "100%"
-    },
-    containerClass: {
-      type: String,
-      default: "lazy-picture"
-    },
-    title: {
-      type: String,
-      default: "Image"
-    },
-    placeholder: {
-      type: String,
-      required: true
-    },
-    src: {
-      type: String,
-      required: true
-    },
-    lazy: {
-      type: Boolean,
-      default: false
-    },
-    blurRadius: {
-      type: Number,
-      default: 5
-    },
-    transitionDuration: {
-      type: Number,
-      default: 2000
-    },
-    easing: {
-      type: String,
-      default: "ease"
-    }
+    containerBgColor: {
+			type: String,
+			default: "rgb(222, 222, 222)"
+		},
+		maxWidth: {
+			type: String,
+			default: "100%"
+		},
+		containerClass: {
+			type: String,
+			default: "lazy-picture"
+		},
+		title: {
+			type: String,
+			default: "Image"
+		},
+		placeholder: {
+			type: String,
+			required: true
+		},
+		src: {
+			type: String,
+			required: true
+		},
+		lazy: {
+			type: Boolean,
+			default: false
+		},
+		blurRadius: {
+			type: Number,
+			default: 5
+		},
+		transitionDuration: {
+			type: Number,
+			default: 500
+		},
+		easing: {
+			type: String,
+			default: "ease"
+		},
+		threshold: {
+			type: Number,
+			default: 0.5
+		}
 ```

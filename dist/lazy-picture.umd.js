@@ -670,18 +670,23 @@
     		easing: {
     			type: String,
     			default: "ease"
+    		},
+    		threshold: {
+    			type: Number,
+    			default: 0.5
     		}
     	},
     	data: function data() {
     		return {
     			blurReady: false,
+    			canvasIsVisible: false,
     			loaded: false,
     			observer: null,
     			intersected: false,
     			intersectionOptions: {
     				root: null,
     				rootMargin: "0px 0px 0px 0px",
-    				threshold: 0
+    				threshold: this.threshold
     			},
     			canvasStyleDefaults: {
     				position: "absolute",
@@ -718,7 +723,7 @@
     		},
     		getFullSizeImageStyle: function getFullSizeImageStyle() {
     			return Object.assign({}, this.fullsizeImageStyleDefaults,
-    				{opacity: this.loaded ? 1 : 0,
+    				{opacity: this.loaded && this.canvasIsVisible ? 1 : 0,
     				transitionDuration: ((this.transitionDuration) + "ms"),
     				transitionTimingFunction: ("" + (this.easing))});
     		},
@@ -734,10 +739,8 @@
     	},
     	methods: {
     		onPlaceholderLoad: function onPlaceholderLoad() {
-    			if (this.lazy) {
-    				this.createIntersectionObserver();
-    				this.createBlurredImage();
-    			}
+    			this.createIntersectionObserver();
+    			this.createBlurredImage();
     		},
     		createBlurredImage: function createBlurredImage() {
     			processImage(
@@ -855,7 +858,7 @@
     var __vue_script__ = script;
 
     /* template */
-    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"container",class:[_vm.containerClass],style:(_vm.getContainerStyle)},[_c('img',{ref:"placeholder",style:(_vm.placeholderStyleDefaults),attrs:{"src":_vm.placeholder,"crossOrigin":"anonymous"},on:{"load":_vm.onPlaceholderLoad}}),_vm._v(" "),_c('canvas',{ref:"canvas",style:(_vm.getCanvasStyle)}),_vm._v(" "),_c('img',{ref:"picture",style:(_vm.getFullSizeImageStyle),attrs:{"alt":_vm.title,"src":_vm.getFullSizeSrc},on:{"load":function($event){_vm.loaded = true;}}})])};
+    var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{ref:"container",class:[_vm.containerClass],style:(_vm.getContainerStyle)},[_c('img',{ref:"placeholder",style:(_vm.placeholderStyleDefaults),attrs:{"src":_vm.placeholder,"crossOrigin":"anonymous"},on:{"load":_vm.onPlaceholderLoad}}),_vm._v(" "),_c('canvas',{ref:"canvas",style:(_vm.getCanvasStyle),on:{"transitionend":function($event){_vm.canvasIsVisible = true;}}}),_vm._v(" "),_c('img',{ref:"picture",style:(_vm.getFullSizeImageStyle),attrs:{"alt":_vm.title,"src":_vm.getFullSizeSrc},on:{"load":function($event){_vm.loaded = true;}}})])};
     var __vue_staticRenderFns__ = [];
 
       /* style */
