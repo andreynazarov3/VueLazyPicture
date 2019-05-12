@@ -7,7 +7,11 @@
 			:style="placeholderStyleDefaults"
 			crossOrigin="anonymous"
 		/>
-		<canvas ref="canvas" :style="getCanvasStyle" />
+		<canvas
+			ref="canvas"
+			:style="getCanvasStyle"
+			@transitionend="canvasIsVisible = true"
+		/>
 		<img
 			ref="picture"
 			:alt="title"
@@ -60,18 +64,23 @@ export default {
 		easing: {
 			type: String,
 			default: "ease"
+		},
+		threshold: {
+			type: Number,
+			default: 0.5
 		}
 	},
 	data() {
 		return {
 			blurReady: false,
+			canvasIsVisible: false,
 			loaded: false,
 			observer: null,
 			intersected: false,
 			intersectionOptions: {
 				root: null,
 				rootMargin: "0px 0px 0px 0px",
-				threshold: 0
+				threshold: this.threshold
 			},
 			canvasStyleDefaults: {
 				position: "absolute",
@@ -111,7 +120,7 @@ export default {
 		getFullSizeImageStyle() {
 			return {
 				...this.fullsizeImageStyleDefaults,
-				opacity: this.loaded ? 1 : 0,
+				opacity: this.loaded && this.canvasIsVisible ? 1 : 0,
 				transitionDuration: `${this.transitionDuration}ms`,
 				transitionTimingFunction: `${this.easing}`
 			};
@@ -128,10 +137,8 @@ export default {
 	},
 	methods: {
 		onPlaceholderLoad() {
-			if (this.lazy) {
-				this.createIntersectionObserver();
-				this.createBlurredImage();
-			}
+			this.createIntersectionObserver();
+			this.createBlurredImage();
 		},
 		createBlurredImage() {
 			StackBlur.image(
